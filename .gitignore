@@ -17,12 +17,14 @@ parsertrace_g
 
 # Visual Studio uglies
 *.suo
-*.sln
-*.vcxproj
-*.vcxproj.filters
-*.vcxproj.user
 *.opensdf
 *.ncrunchsolution*
 *.sdf
 *.vsp
 *.psess
+Debug
+*.vcxproj.user
+ipch
+*.pyc
+*.log
+build
