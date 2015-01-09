@@ -83,11 +83,11 @@ do {                                                                 \
   assert(HTTP_PARSER_ERRNO(parser) == HPE_OK);                       \
                                                                      \
   if (LIKELY(settings->on_##FOR)) {                                  \
-    parser->state = (unsigned int) CURRENT_STATE();                  \
+    parser->state = (unsigned int) CURRENT_STATE();                 \
     if (UNLIKELY(0 != settings->on_##FOR(parser))) {                 \
       SET_ERRNO(HPE_CB_##FOR);                                       \
     }                                                                \
-    UPDATE_STATE((state)parser->state);                                     \
+    UPDATE_STATE((enum state)parser->state);                         \
                                                                      \
     /* We either errored above or got paused; get out */             \
     if (UNLIKELY(HTTP_PARSER_ERRNO(parser) != HPE_OK)) {             \
@@ -114,7 +114,7 @@ do {                                                                 \
                    settings->on_##FOR(parser, FOR##_mark, (LEN)))) { \
         SET_ERRNO(HPE_CB_##FOR);                                     \
       }                                                              \
-      UPDATE_STATE((state)parser->state);                            \
+      UPDATE_STATE((enum state)parser->state);                       \
                                                                      \
       /* We either errored above or got paused; get out */           \
       if (UNLIKELY(HTTP_PARSER_ERRNO(parser) != HPE_OK)) {           \
@@ -637,7 +637,7 @@ size_t http_parser_execute (http_parser *parser,
   const char *url_mark = 0;
   const char *body_mark = 0;
   const char *status_mark = 0;
-  enum state p_state = (state) parser->state;
+  enum state p_state = (enum state) parser->state;
 
   /* We're in an error state. Don't bother doing anything. */
   if (HTTP_PARSER_ERRNO(parser) != HPE_OK) {
@@ -1518,7 +1518,7 @@ size_t http_parser_execute (http_parser *parser,
       case s_header_value:
       {
         const char* start = p;
-        enum header_states h_state = (header_states) parser->header_state;
+        enum header_states h_state = (enum header_states) parser->header_state;
         for (; p != data + len; p++) {
           ch = *p;
           if (ch == CR) {
