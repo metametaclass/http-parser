@@ -39,6 +39,8 @@
 
 #if defined(_MSC_VER)
 #define INLINE __inline
+#else
+#define INLINE inline
 #endif
 
 #undef TRUE
